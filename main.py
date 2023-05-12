@@ -10,6 +10,7 @@ root = tk.Tk()
 root.title("Calculate Tectonic Stress")
 
 root.geometry("800x800")
+root.resizable(False,False)
 
 # Disable automatic resizing of widgets
 root.grid_propagate(False)
@@ -140,10 +141,11 @@ def get_values():
         f.writelines("{}  {}  {}  {}  {}".format(str(long), str(lat+0.15), str(w[0]/100), str(w[1]/100), str(azimuth)))
 
     # Create labels to display the submitted values in the grid
-    tk.Label(tectonic_stress_result, text="Tectonic Stress (Pa): ").grid(row=1, column=0, padx=1, pady=5, sticky='w')
+    tk.Label(tectonic_stress_result, text="Tectonic Stress (kPa/tahun): ").grid(row=1, column=0, padx=1, pady=5, sticky='w')
     tk.Label(tectonic_stress_result, text='{:.2f}'.format(cfs)).grid(row=1, column=1, padx=5, pady=5, sticky='w')
 
     data = pd.read_csv('output.dat', sep='\s+', header=None)
+    print(data)
     fig = pygmt.Figure()
     region = [lon_min, lon_max, lat_min, lat_max]
     proj = 'M' + str(12) + 'c'

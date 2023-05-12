@@ -1,5 +1,8 @@
+import re
+import pandas as pd
 import numpy as np
 import math
+import os
 
 def calculate_cfs(fric, normal, shear):
     return abs(shear) + (fric * normal)
@@ -77,3 +80,15 @@ def normal_and_shear_from_pdf(sigma1, sigma2, stress_xy, theta):
     normal = ((sigma1 + sigma2)/2) + (sigma1 - sigma2)/2*np.cos(2*theta*np.pi/180) + stress_xy*np.sin(2*theta*np.pi/180)
     shear = (sigma1 - sigma2)/2*np.sin(2*theta*np.pi/180) + stress_xy*np.cos(2*theta*np.pi/180)
     return normal, shear
+
+def average_segment(dir, segment):
+    if(os.path.exists(dir) == False):
+        return ValueError("File {} not found".format(dir))
+    file = pd.read_table(dir, header=None, delim_whitespace=True)
+    sum = 0
+    tot = 0
+    for j in range(0,len(file)):
+        if(pd.isna(file[2][j]) == False):
+            sum = sum + file[2][j]
+            tot = tot + 1
+    return sum/tot
